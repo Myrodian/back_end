@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,4 +68,15 @@ public class CategoriaService {
             throw new ErroNoBancoDeDados(e.getMessage());
         }
     }
+    @Transactional
+    public CategoriaDTO update(Long id, CategoriaDTO dto) {
+        if (!categoriaRepository.existsById(id)){
+            throw new RegistroNaoEncontrado("Categoria não encontrada");
+        }
+        Categoria entity = categoriaRepository.getReferenceById(id);
+        entity.setNome(dto.getNome()); // sobrescrevi o nome antigo
+        entity = categoriaRepository.save(entity);
+        return new CategoriaDTO(entity);
+    }
+
 }

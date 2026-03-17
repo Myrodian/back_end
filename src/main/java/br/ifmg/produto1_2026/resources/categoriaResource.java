@@ -22,7 +22,12 @@ public class categoriaResource {
     private CategoriaService categoriaService;
 
     @GetMapping
-    public ResponseEntity<List<CategoriaDTO>> categorias() {
+    public ResponseEntity<List<CategoriaDTO>> categorias(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction,
+            @RequestParam(value = "sort", defaultValue = "id") String sort
+    ) {
 
         List<CategoriaDTO> categorias = categoriaService.findAll();
 
@@ -39,7 +44,7 @@ public class categoriaResource {
         }
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
-
+    @PostMapping
     public ResponseEntity<CategoriaDTO> insert(
             @RequestBody CategoriaDTO dto){
                 CategoriaDTO retorno = categoriaService.insert(dto);
@@ -52,4 +57,15 @@ public class categoriaResource {
 
             return ResponseEntity.created(location).body(retorno);
         }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        categoriaService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoriaDTO> update(@PathVariable Long id, @RequestBody CategoriaDTO dto) {
+        CategoriaDTO retorno = categoriaService.update(id,dto);
+        return ResponseEntity.ok().body(retorno);
+    }
 }
