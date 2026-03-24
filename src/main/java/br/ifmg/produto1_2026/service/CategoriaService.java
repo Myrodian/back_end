@@ -43,7 +43,7 @@ public class CategoriaService {
     }
 
     @Transactional(readOnly = true)
-    public CategoriaDTO findById(long id) {
+    public CategoriaDTO findById(Long id) {
         Optional<Categoria> opt = categoriaRepository.findById(id);
 
         Categoria categoria = opt.orElseThrow(() -> new RegistroNaoEncontrado("Categoria não encontrada"));
