@@ -1,7 +1,6 @@
 package br.ifmg.produto1_2026.resources;
 
 import br.ifmg.produto1_2026.dto.CategoriaDTO;
-import br.ifmg.produto1_2026.entities.Categoria;
 import br.ifmg.produto1_2026.service.CategoriaService;
 import br.ifmg.produto1_2026.service.exception.RegistroNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
-@RequestMapping("/categoria")
-public class categoriaResource {
+@RequestMapping("/categorias")
+public class CategoriaResource {
 
     @Autowired
     private CategoriaService categoriaService;

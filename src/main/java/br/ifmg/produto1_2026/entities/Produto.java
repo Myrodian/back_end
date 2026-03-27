@@ -3,7 +3,9 @@ package br.ifmg.produto1_2026.entities;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_produto")
@@ -22,6 +24,15 @@ public class Produto {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant dataAtualizacao = Instant.now();
 
+    @ManyToMany
+    @JoinTable(
+            name="tb_produto_categoria", // nome da tabela
+            joinColumns = @JoinColumn(name="id_produto"),
+            inverseJoinColumns = @JoinColumn(name="id_categoria")
+    )
+    private Set<Categoria> categorias =  new HashSet<Categoria>();
+
+    
     public Produto() {
     }
 
@@ -94,5 +105,34 @@ public class Produto {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+    @PrePersist
+    public void prePersist() {
+        this.dataCriacao = Instant.now();
+    }
 
+    @PreUpdate
+    public void preUpdate() {
+        this.dataAtualizacao = Instant.now();
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", preco=" + preco +
+                ", imgURl='" + imgURl + '\'' +
+                ", dataCriacao=" + dataCriacao +
+                ", dataAtualizacao=" + dataAtualizacao +
+                '}';
+    }
+
+    public Set<Categoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(Set<Categoria> categorias) {
+        this.categorias = categorias;
+    }
 }
