@@ -1,7 +1,12 @@
 package br.ifmg.produto1_2026.service;
 
+import br.ifmg.produto1_2026.dto.CategoriaDTO;
+import br.ifmg.produto1_2026.dto.PerfilDTO;
 import br.ifmg.produto1_2026.dto.UsuarioDTO;
+import br.ifmg.produto1_2026.entities.Categoria;
+import br.ifmg.produto1_2026.entities.Perfil;
 import br.ifmg.produto1_2026.entities.Usuario;
+import br.ifmg.produto1_2026.repositories.PerfilRepository;
 import br.ifmg.produto1_2026.repositories.UsuarioRepository;
 import br.ifmg.produto1_2026.service.exception.ErroNoBancoDeDados;
 import br.ifmg.produto1_2026.service.exception.RegistroNaoEncontrado;
@@ -20,6 +25,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository produtoRepository;
 
+    @Autowired
+    private PerfilRepository perfilRepository;
+
     @Transactional(readOnly = true)
     public Page<UsuarioDTO> findAll(Pageable pageRequest) {
         Page<Usuario> produtos = produtoRepository.findAll(pageRequest);
@@ -36,12 +44,24 @@ public class UsuarioService {
     @Transactional
     public UsuarioDTO insert(UsuarioDTO dto) {
         Usuario entity = new Usuario();
+
+        CopytoEntity(dto, entity);
+
+        entity = produtoRepository.save(entity);
+        return new UsuarioDTO(entity);
+    }
+
+    private void CopytoEntity(UsuarioDTO dto, Usuario entity) {
         entity.setNome(dto.getNome());
         entity.setEmail(dto.getEmail());
         entity.setSenha(dto.getSenha());
         entity.setTelefone(dto.getTelefone());
-        entity = produtoRepository.save(entity);
-        return new UsuarioDTO(entity);
+
+        entity.getPerfis().clear();
+        for (PerfilDTO udto : dto.getPerfis()){
+            Perfil uDTO = perfilRepository.getReferenceById(udto.getId());
+            entity.getPerfis().add(uDTO);
+        }
     }
 
     @Transactional
@@ -50,10 +70,9 @@ public class UsuarioService {
             throw new RegistroNaoEncontrado("Usuario não encontrado");
         }
         Usuario entity = produtoRepository.getReferenceById(id);
-        entity.setNome(dto.getNome());
-        entity.setEmail(dto.getEmail());
-        entity.setSenha(dto.getSenha());
-        entity.setTelefone(dto.getTelefone());
+
+        CopytoEntity(dto, entity);
+
         entity = produtoRepository.save(entity);
         return new UsuarioDTO(entity);
     }

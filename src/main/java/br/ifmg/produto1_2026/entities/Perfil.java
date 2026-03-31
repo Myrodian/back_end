@@ -15,7 +15,6 @@ public class Perfil {
     private String nome;
     private String descricao;
 
-
     public Perfil() {
     }
 
