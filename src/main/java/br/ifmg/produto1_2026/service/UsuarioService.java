@@ -46,7 +46,7 @@ public class UsuarioService {
         Usuario entity = new Usuario();
 
         CopytoEntity(dto, entity);
-
+        // tem alguma coisa de URI aqui. que ainda não fiz
         entity = produtoRepository.save(entity);
         return new UsuarioDTO(entity);
     }
