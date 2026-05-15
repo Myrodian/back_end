@@ -1,4 +1,4 @@
-package br.edu.ifmg.produto.config.customgrant;
+package br.ifmg.produto1_2026.config.customgrant;
 
 import java.util.Arrays;
 import java.util.HashMap;

@@ -8,9 +8,9 @@ import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
 
-import br.edu.ifmg.produto.config.customgrant.CustomPasswordAuthenticationConverter;
-import br.edu.ifmg.produto.config.customgrant.CustomPasswordAuthenticationProvider;
-import br.edu.ifmg.produto.config.customgrant.CustomUserAuthorities;
+import br.ifmg.produto1_2026.config.customgrant.CustomPasswordAuthenticationConverter;
+import br.ifmg.produto1_2026.config.customgrant.CustomPasswordAuthenticationProvider;
+import br.ifmg.produto1_2026.config.customgrant.CustomUserAuthorities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

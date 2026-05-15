@@ -122,6 +122,6 @@ public class UserService implements UserDetailsService {
                     new Perfil(data.getRoleId(), data.getAuthority())
             );
         }
-        return null;
+        return user;
     }
 }
